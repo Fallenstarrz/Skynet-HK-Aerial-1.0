@@ -19,7 +19,7 @@ int main()
 
 	do
 	{
-		cout << "Enter A Guess" << endl;
+		cout << "Enter a number between 1 and 100" << endl;
 		cin >> guess;
 		if (guess > secretNumber)
 		{
