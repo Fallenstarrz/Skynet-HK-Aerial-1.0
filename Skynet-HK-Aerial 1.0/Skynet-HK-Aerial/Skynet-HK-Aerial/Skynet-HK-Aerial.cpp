@@ -11,39 +11,42 @@ using namespace std;
 int main()
 {
 	srand(static_cast<unsigned int>(time(0))); // Seed random number generator
-	int highNum = 64;
-	int lowNum = 1;
-	const int secretNumber = rand()lowNum + highNum; // number that the computer is trying to guess
-	int guess; // This variable stores the guess
+	int highNum = 64; // This is a variable to limit how high the grid goes
+	int lowNum = 1; // This is a variable to limit how low the grid goes
+	const int targetPos = rand() % highNum + lowNum; // This is the number that the AI is trying to find
+	int guess; // This is the number the AI is scanning
 	int tries = 0; // This variable holds the number of attempts required to guess the secretNumber correctly
-	bool targetFound = false;
 
 	cout << "Skynet HK-Aerial" << endl << endl;
 
-	do
+	do // Do loop! This runs at least once!
 	{
-		cout << "Enter a number between 1 and 64" << endl;
-		cin >> guess; // Make This random from computer
-		if (guess > secretNumber)
+		guess = ((highNum - lowNum) / 2) + lowNum; // This will get called every time the loop restarts. It will make the computer choose a new guess.
+		cout << "Initiating search at position " << guess << "." << endl;
+
+		if (guess > targetPos)
 		{
-			cout << "Too high!" << endl; // Change guess to exclude numbers above our guess
-			tries++;
+			cout << "Target not found. \nInitiating search at lower position." << endl << endl;
+			highNum = guess; // If number is too high, then we make highNum the guess, so when we restart the loop, the computer cannot guess any higher than our previous number
+			tries++; // add 1 to tries, so we know how many attempts it took the computer
 		}
-		else if (guess < secretNumber)
+		else if (guess < targetPos)
 		{
-			cout << "Too low!" << endl; // Change guess to exclude numbers below our guess
-			tries++;
+			cout << "Target not found. \nInitiating search at higher position." << endl << endl;
+			lowNum = guess; // If number is too low, then we make lowNum the guess, so when we restart the loop, the computer cannot guess any lower than our previous guess
+			tries++; // add 1 to tries, so we know how many attempts it took the computer
 		}
 		else
 		{
-			tries++;
-			cout << "You got it correct, and it only took you "<<  tries << "to get it correctly!" << endl; // Some flavor text here for found the enemy.
+			tries++; // add 1 to tries, so we know how many attempts it took the computer
+			cout << "Target sighted at " << targetPos << endl; // print the block that we found our target at.
+			cout << "Scanned "<<  tries << " blocks to find the target." << endl << endl; // Print the number of tries it took us to get the correct number
 			
 		}
 
-	} while (guess != secretNumber);
+	} while (guess != targetPos); // This is the loop part of the Do. As long as the AI hasn't found the target it will keep searching.
 
-	system("pause");
+	system("pause"); // Pause the console
     return 0;
 }
 
